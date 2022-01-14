@@ -24,6 +24,13 @@ public final class Waypoint {
 
     private final BoundingBox radius;
 
+    private static final int DEFAULT_OFFSET_X = 5;
+    private static final int DEFAULT_OFFSET_Y = 5;
+    private static final int DEFAULT_OFFSET_Z = 5;
+    private static final List<String> DEFAULT_LORE = new ArrayList<String>(){{
+        add("<white>Coming soon!");
+    }};
+
     public Waypoint(String name, ItemStack icon, List<String> lore, Location waypoint, int offsetRadiusX, int offsetRadiusY, int offsetRadiusZ) {
         this.name = name;
         this.icon = icon;
@@ -34,7 +41,7 @@ public final class Waypoint {
         final Location c2 = waypoint.clone();
 
         c1.setX(c1.getX() + offsetRadiusX);
-        c2.setX(c2.getZ() + offsetRadiusX);
+        c2.setX(c2.getX() - offsetRadiusX);
 
         c1.setY(c1.getY() + offsetRadiusY);
         c2.setY(c2.getY() - offsetRadiusY);
@@ -81,20 +88,32 @@ public final class Waypoint {
         return radius.contains(location.getX(),location.getY(),location.getZ());
     }
 
-    public static Map<String,Object> serializeRawWaypoint(@NotNull String name, @NotNull Location location){
-        HashMap<String,Object> map = new HashMap<>();
+    public static Map<String,Object> serializeRawWaypoint(@NotNull Location location){
+        final HashMap<String,Object> map = new HashMap<>();
+        final HashMap<String, Object> offsetRadius = new HashMap<>();
         map.put("location",LocationUtils.serializeLocation(location));
         map.put("icon", Material.GRASS_BLOCK.name());
-        map.put("lore",new ArrayList<String>(){{
-            add("<white>Coming soon!");
-        }});
-        map.put("offset-radius.x",5);
-        map.put("offset-radius.y",5);
-        map.put("offset-radius.z",5);
+        map.put("lore",DEFAULT_LORE.stream().toList());
+        offsetRadius.put("x",DEFAULT_OFFSET_X);
+        offsetRadius.put("y",DEFAULT_OFFSET_Y);
+        offsetRadius.put("z",DEFAULT_OFFSET_Z);
+        map.put("offset-radius",offsetRadius);
         return map;
     }
 
+
     public static Waypoint buildFrom(@NotNull String name,@NotNull ItemStack icon, @NotNull List<String> lore, @NotNull Location location, int offsetX, int offsetY, int offsetZ ){
         return new Waypoint(name, icon, lore, location, offsetX, offsetY, offsetZ);
+    }
+
+    public static Waypoint buildFrom(@NotNull String name, @NotNull Location location){
+        return new Waypoint(name
+                ,new ItemStack(Material.GRASS_BLOCK)
+                ,DEFAULT_LORE.stream().toList()
+                ,location
+                ,DEFAULT_OFFSET_X
+                ,DEFAULT_OFFSET_Y
+                ,DEFAULT_OFFSET_Z
+        );
     }
 }

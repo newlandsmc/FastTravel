@@ -3,9 +3,11 @@ package com.semivanilla.fasttravel.files;
 import com.semivanilla.fasttravel.files.core.AbstractFile;
 import com.semivanilla.fasttravel.files.core.FileHandler;
 import com.semivanilla.fasttravel.model.Waypoint;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class WaypointConfiguration extends AbstractFile {
@@ -34,5 +36,9 @@ public class WaypointConfiguration extends AbstractFile {
         });
 
         handler.getPlugin().getWaypointManager().insert(waypointList);
+    }
+
+    public void insertNewWayPoint(@NotNull String name, Map<String, Object> rawMap){
+        this.file.set(name, rawMap);
     }
 }

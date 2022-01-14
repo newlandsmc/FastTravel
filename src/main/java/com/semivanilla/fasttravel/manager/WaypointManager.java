@@ -42,7 +42,7 @@ public final class WaypointManager {
     }
 
     public void createNewWaypoint(@NotNull Location location, @NotNull String name){
-        plugin.getFileHandler().getWaypointConfiguration();
+        plugin.getFileHandler().getWaypointConfiguration().insertNewWayPoint(name,Waypoint.serializeRawWaypoint(location));
     }
 
 

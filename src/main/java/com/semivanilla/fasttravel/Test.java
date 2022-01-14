@@ -23,7 +23,18 @@ public class Test implements CommandExecutor, Listener {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        final Player player = (Player) sender;
+        if(plugin.getWaypointManager().getIfInsideWaypoint(player.getLocation()).isPresent()){
+            sender.sendMessage("Already Exists");
+            return true;
+        }
 
+        if(plugin.getWaypointManager().contains(args[0])){
+            sender.sendMessage("Name already Exists");
+            return true;
+        }
+
+        plugin.getWaypointManager().createNewWaypoint(player.getLocation(),args[0]);
         return true;
     }
 
@@ -37,11 +48,8 @@ public class Test implements CommandExecutor, Listener {
         if(sneeking) {
             Optional<Waypoint> waypoint = plugin.getWaypointManager().getIfInsideWaypoint(player.getLocation());
             if(waypoint.isPresent()){
-                plugin.getLogger().info("Waypoint is present");
                 Waypoint waypoint1 = waypoint.get();
-                plugin.getLogger().info(waypoint1.getName());
             }else {
-                plugin.getLogger().info("Waypoint is not present");
             }
         }
 

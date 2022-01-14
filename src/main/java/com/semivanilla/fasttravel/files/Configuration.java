@@ -9,7 +9,6 @@ public final class Configuration extends AbstractFile {
         super(handler);
     }
 
-    private int offsetX,offsetY,offsetZ;
 
     @Override
     public boolean initConfig() {
@@ -19,20 +18,6 @@ public final class Configuration extends AbstractFile {
 
     @Override
     public void loadConfig() {
-        this.offsetX = file.getInt("waypoint-radius.offset-x");
-        this.offsetY = file.getInt("waypoint-radius.offset-y");
-        this.offsetZ = file.getInt("waypoint-radius.offset-z");
-    }
 
-    public int getOffsetX() {
-        return offsetX;
-    }
-
-    public int getOffsetY() {
-        return offsetY;
-    }
-
-    public int getOffsetZ() {
-        return offsetZ;
     }
 }

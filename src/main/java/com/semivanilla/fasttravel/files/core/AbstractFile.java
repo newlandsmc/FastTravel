@@ -50,7 +50,7 @@ public abstract class AbstractFile {
     }
 
     protected Optional<Location> deserializeLocation(@NotNull String path){
-        World world = handler.getPlugin().getServer().getWorld(file.getString(path+".world"));
+        World world = handler.getPlugin().getServer().getWorld(file.getString(path+".world-name"));
         if(world == null)
             return Optional.empty();
 
@@ -65,9 +65,11 @@ public abstract class AbstractFile {
 
     protected Optional<Waypoint> deserializeWaypoint(@NotNull String name){
         Optional<Location> location = deserializeLocation(name+".location");
-        if(location.isPresent())
-            return Optional.ofNullable(Waypoint.buildFrom(name, getMaterial(name+".icon"),file.getStringList(name+".lore"),location.get(),file.getInt("offset-radius.x"),file.getInt("offset-radius.y"),file.getInt("offset-radius.z")));
-        else return Optional.empty();
+        if(location.isPresent()) {
+            return Optional.of(Waypoint.buildFrom(name, getMaterial(name + ".icon"), file.getStringList(name + ".lore"), location.get(), file.getInt(name+".offset-radius.x"), file.getInt(name+".offset-radius.y"), file.getInt(name+".offset-radius.z")));
+        }
+        else {
+            return Optional.empty();}
     }
 
     protected ItemStack getMaterial(@NotNull String path){
