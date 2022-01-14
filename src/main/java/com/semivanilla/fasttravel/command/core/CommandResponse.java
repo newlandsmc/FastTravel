@@ -10,6 +10,11 @@ public enum CommandResponse {
     RAW_WAYPOINT_CREATED("<green>A raw waypoint config has been created in the config. Please configure it and reload the plugin"),
     NO_WAYPOINT_WITH_NAME_EXISTS("<red>No waypoint with this name has been found!"),
     REMOVED_WAYPOINT("<green>Waypoint has been removed from the server"),
+    STATUS_TOGGLED_DISABLED("<red>Waypoint has been disabled"),
+    STATUS_TOGGLE_ENABLED("<green>Waypoint has been enabled"),
+    PLUGIN_RELOADED("<green>Plugin reload complete"),
+    WAYPOINT_UPDATED("<aqua>The waypoint %name% has been updated!"),
+    WAYPOINT_UPDATE_FAILED("<red>Failed to update waypoint. Waypoint configuration seems to be invalid, validation error should be posted in console")
     ;
 
     private String response;

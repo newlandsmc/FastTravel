@@ -3,7 +3,6 @@ package com.semivanilla.fasttravel.manager;
 import com.semivanilla.fasttravel.FastTravel;
 import com.semivanilla.fasttravel.model.Waypoint;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -43,6 +42,7 @@ public final class WaypointManager {
 
     public void createNewWaypoint(@NotNull Location location, @NotNull String name){
         plugin.getFileHandler().getWaypointConfiguration().insertNewWayPoint(name,Waypoint.serializeRawWaypoint(location));
+        waypointHashMap.put(name,Waypoint.buildFrom(name,location));
     }
 
     public void removeWaypoint(@NotNull String name){
@@ -61,6 +61,24 @@ public final class WaypointManager {
         if(contains(name))
             return waypointHashMap.get(name).isActive();
         else return false;
+    }
+
+    public boolean updateToPluginCache(@NotNull String name){
+        if(contains(name))
+            waypointHashMap.remove(name);
+
+        Optional<Waypoint> optionalWaypoint = plugin.getFileHandler().getWaypointConfiguration().fetchWaypoint(name);
+        if(optionalWaypoint.isPresent()){
+            this.insert(optionalWaypoint);
+            return true;
+        }else {
+            plugin.getLogger().severe("Update failed. Waypoint Object seems to be null!");
+            return false;
+        }
+    }
+
+    public void prepareWaypointReload(){
+        waypointHashMap.clear();
     }
 
 }

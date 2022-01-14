@@ -51,9 +51,10 @@ public abstract class AbstractFile {
 
     protected Optional<Location> deserializeLocation(@NotNull String path){
         World world = handler.getPlugin().getServer().getWorld(file.getString(path+".world-name"));
-        if(world == null)
+        if(world == null) {
+            handler.getPlugin().getLogger().severe("The world for "+path+" seems to be null. The deserialization of the waypoint has been failed and wont be updated");
             return Optional.empty();
-
+        }
         final int x = file.getInt(path+".x");
         final int y = file.getInt(path+".y");
         final int z = file.getInt(path+".z");
@@ -69,7 +70,9 @@ public abstract class AbstractFile {
             return Optional.of(Waypoint.buildFrom(name, getMaterial(name + ".icon"), file.getStringList(name + ".lore"), location.get(), file.getInt(name+".offset-radius.x"), file.getInt(name+".offset-radius.y"), file.getInt(name+".offset-radius.z")));
         }
         else {
-            return Optional.empty();}
+            handler.getPlugin().getLogger().severe("Failed to obtain location for the waypoint. Deserialization failed!");
+            return Optional.empty();
+        }
     }
 
     protected ItemStack getMaterial(@NotNull String path){

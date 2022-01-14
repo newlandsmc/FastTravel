@@ -46,4 +46,12 @@ public class WaypointConfiguration extends AbstractFile {
         if(this.file.contains(name))
             file.remove(name);
     }
+
+    public boolean contains(@NotNull String name){
+        return this.file.contains(name);
+    }
+
+    public Optional<Waypoint> fetchWaypoint(@NotNull String name){
+        return deserializeWaypoint(name);
+    }
 }
