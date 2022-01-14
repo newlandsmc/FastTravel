@@ -1,0 +1,8 @@
+##When a waypoint is created it creates a bounding box around it with the specified offset-{dimension} at its radius
+##offset-x -> Radius of X, so the box will have radius specified blocks in X dimension
+##offset-y -> Radius of Y, so the box will have radius specified blocks in Y dimension
+##offset-z -> Radius of Z, so the box will have radius specified blocks in Z dimension
+waypoint-radius:
+  offset-x: 10
+  offset-y: 10
+  offset-z: 10

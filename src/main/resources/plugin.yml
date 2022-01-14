@@ -1,0 +1,9 @@
+name: FastTravel
+version: '${project.version}'
+main: com.semivanilla.fasttravel.FastTravel
+api-version: 1.18
+authors: [ Alen_Alex ]
+description: An interactive waypoint plugin. Visit the waypoint to unlock it. Made for Semivanilla MC
+commands:
+  test:
+    description: ""
