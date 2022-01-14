@@ -41,4 +41,9 @@ public class WaypointConfiguration extends AbstractFile {
     public void insertNewWayPoint(@NotNull String name, Map<String, Object> rawMap){
         this.file.set(name, rawMap);
     }
+
+    public void removeWaypoint(@NotNull String name){
+        if(this.file.contains(name))
+            file.remove(name);
+    }
 }

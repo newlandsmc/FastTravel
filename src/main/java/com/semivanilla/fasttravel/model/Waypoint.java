@@ -23,6 +23,7 @@ public final class Waypoint {
     private final Location waypoint;
 
     private final BoundingBox radius;
+    private boolean active;
 
     private static final int DEFAULT_OFFSET_X = 5;
     private static final int DEFAULT_OFFSET_Y = 5;
@@ -50,6 +51,7 @@ public final class Waypoint {
         c2.setZ(c2.getZ() - offsetRadiusZ);
 
         this.radius = BoundingBox.of(c1,c2);
+        this.active = true;
     }
 
     public String getName() {
@@ -86,6 +88,14 @@ public final class Waypoint {
 
     public boolean isInside(@NotNull Location location){
         return radius.contains(location.getX(),location.getY(),location.getZ());
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public static Map<String,Object> serializeRawWaypoint(@NotNull Location location){

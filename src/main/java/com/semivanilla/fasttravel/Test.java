@@ -49,7 +49,7 @@ public class Test implements CommandExecutor, Listener {
             Optional<Waypoint> waypoint = plugin.getWaypointManager().getIfInsideWaypoint(player.getLocation());
             if(waypoint.isPresent()){
                 Waypoint waypoint1 = waypoint.get();
-            }else {
+                player.sendMessage("This is a waypoint of "+waypoint1.getName());
             }
         }
 

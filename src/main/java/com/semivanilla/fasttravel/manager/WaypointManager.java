@@ -38,12 +38,29 @@ public final class WaypointManager {
     }
 
     public Optional<Waypoint> getIfInsideWaypoint(@NotNull Location location){
-        return getAllWaypoints().stream().filter(waypoint -> waypoint.isInside(location)).findAny();
+        return getAllWaypoints().stream().filter(Waypoint::isActive).filter(waypoint -> waypoint.isInside(location)).findAny();
     }
 
     public void createNewWaypoint(@NotNull Location location, @NotNull String name){
         plugin.getFileHandler().getWaypointConfiguration().insertNewWayPoint(name,Waypoint.serializeRawWaypoint(location));
     }
 
+    public void removeWaypoint(@NotNull String name){
+        if(contains(name))
+            waypointHashMap.remove(name);
+
+        plugin.getFileHandler().getWaypointConfiguration().removeWaypoint(name);
+    }
+
+    public void setActiveFor(@NotNull String name, boolean status){
+        waypointHashMap.get(name).setActive(status);
+    }
+
+
+    public boolean isWaypointActive(@NotNull String name){
+        if(contains(name))
+            return waypointHashMap.get(name).isActive();
+        else return false;
+    }
 
 }
