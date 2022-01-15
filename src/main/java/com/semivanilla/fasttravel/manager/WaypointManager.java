@@ -5,7 +5,10 @@ import com.semivanilla.fasttravel.model.Waypoint;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 public final class WaypointManager {
 
@@ -28,32 +31,44 @@ public final class WaypointManager {
         waypoint.ifPresent(this::insert);
     }
 
-    public boolean contains(@NotNull String name){
+    public boolean contains(@NotNull String name) {
         return waypointHashMap.containsKey(name);
     }
 
-    public List<Waypoint> getAllWaypoints(){
+    public List<Waypoint> getAllWaypoints() {
         return new ArrayList<>(waypointHashMap.values());
     }
 
-    public Optional<Waypoint> getIfInsideWaypoint(@NotNull Location location){
+    public List<Waypoint> getAllActiveWaypoints() {
+        return waypointHashMap.values().stream().filter(Waypoint::isActive).toList();
+    }
+
+    public Optional<Waypoint> getIfInsideWaypoint(@NotNull Location location) {
         return getAllWaypoints().stream().filter(Waypoint::isActive).filter(waypoint -> waypoint.isInside(location)).findAny();
     }
 
-    public void createNewWaypoint(@NotNull Location location, @NotNull String name){
-        plugin.getFileHandler().getWaypointConfiguration().insertNewWayPoint(name,Waypoint.serializeRawWaypoint(location));
-        waypointHashMap.put(name,Waypoint.buildFrom(name,location));
+    public void createNewWaypoint(@NotNull Location location, @NotNull String name) {
+        plugin.getFileHandler().getWaypointConfiguration().insertNewWayPoint(name, Waypoint.serializeRawWaypoint(location));
+        waypointHashMap.put(name, Waypoint.buildFrom(name, location));
+        plugin.getHookManager().addIconToMap(name, location, Waypoint.DEFAULT_ICON);
     }
 
-    public void removeWaypoint(@NotNull String name){
-        if(contains(name))
+    public void removeWaypoint(@NotNull String name) {
+        if (contains(name)) {
+            plugin.getHookManager().removeIcon(name, waypointHashMap.get(name).getWaypoint().getWorld().getName());
             waypointHashMap.remove(name);
-
+        }
         plugin.getFileHandler().getWaypointConfiguration().removeWaypoint(name);
     }
 
-    public void setActiveFor(@NotNull String name, boolean status){
+    public void setActiveFor(@NotNull String name, boolean status) {
         waypointHashMap.get(name).setActive(status);
+        if (status) {
+            final Waypoint point = waypointHashMap.get(name);
+            plugin.getHookManager().addIconToMap(name, point.getWaypoint(), point.getIconName());
+        } else {
+            plugin.getHookManager().removeIcon(name, waypointHashMap.get(name).getWaypoint().getWorld().getName());
+        }
     }
 
 
@@ -64,12 +79,13 @@ public final class WaypointManager {
     }
 
     public boolean updateToPluginCache(@NotNull String name){
-        if(contains(name))
-            waypointHashMap.remove(name);
+        removeWaypoint(name);
 
         Optional<Waypoint> optionalWaypoint = plugin.getFileHandler().getWaypointConfiguration().fetchWaypoint(name);
-        if(optionalWaypoint.isPresent()){
+        if(optionalWaypoint.isPresent()) {
             this.insert(optionalWaypoint);
+            Waypoint waypoint = optionalWaypoint.get();
+            plugin.getHookManager().addIconToMap(name, waypoint.getWaypoint(), waypoint.getIconName());
             return true;
         }else {
             plugin.getLogger().severe("Update failed. Waypoint Object seems to be null!");

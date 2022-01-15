@@ -49,14 +49,14 @@ public class FastTravelCommands extends CommandBase {
     @SubCommand("remove")
     @Permission("fasttravel.remove")
     @Completion({"#activepoints"})
-    public void onCommandRemove(final Player player, String name){
-        if(name == null){
-            MiniMessageUtils.sendMessage(player,CommandResponse.WAYPOINT_COMMAND_NO_NAME_PROVIDED.getResponse());
+    public void onCommandRemove(final CommandSender player, String name) {
+        if (name == null) {
+            MiniMessageUtils.sendMessage(player, CommandResponse.WAYPOINT_COMMAND_NO_NAME_PROVIDED.getResponse());
             return;
         }
 
-        if(!handler.getPlugin().getWaypointManager().contains(name)){
-            MiniMessageUtils.sendMessage(player,CommandResponse.NO_WAYPOINT_WITH_NAME_EXISTS.getResponse());
+        if (!handler.getPlugin().getWaypointManager().contains(name)) {
+            MiniMessageUtils.sendMessage(player, CommandResponse.NO_WAYPOINT_WITH_NAME_EXISTS.getResponse());
             return;
         }
 

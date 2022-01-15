@@ -13,7 +13,13 @@ import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public abstract class AbstractFile {
 
@@ -23,6 +29,8 @@ public abstract class AbstractFile {
 
     public AbstractFile(FileHandler handler) {
         this.handler = handler;
+        if (!handler.getPlugin().getDataFolder().exists())
+            handler.getPlugin().getDataFolder().mkdirs();
     }
 
     public abstract boolean initConfig();
@@ -67,9 +75,8 @@ public abstract class AbstractFile {
     protected Optional<Waypoint> deserializeWaypoint(@NotNull String name){
         Optional<Location> location = deserializeLocation(name+".location");
         if(location.isPresent()) {
-            return Optional.of(Waypoint.buildFrom(name, getMaterial(name + ".icon"), file.getStringList(name + ".lore"), location.get(), file.getInt(name+".offset-radius.x"), file.getInt(name+".offset-radius.y"), file.getInt(name+".offset-radius.z")));
-        }
-        else {
+            return Optional.of(Waypoint.buildFrom(name, getMaterial(name + ".icon"), file.getStringList(name + ".lore"), location.get(), file.getInt(name + ".offset-radius.x"), file.getInt(name + ".offset-radius.y"), file.getInt(name + ".offset-radius.z"), file.getString(name + ".icon-name")));
+        } else {
             handler.getPlugin().getLogger().severe("Failed to obtain location for the waypoint. Deserialization failed!");
             return Optional.empty();
         }
@@ -80,14 +87,32 @@ public abstract class AbstractFile {
         if(EnumUtils.isValidEnum(Material.class,materialString))
             return new ItemStack(Objects.requireNonNull(Material.getMaterial(materialString)));
         else {
-            if(materialString.startsWith(BASE_IDENTIFIER)){
+            if (materialString.startsWith(BASE_IDENTIFIER)) {
                 final String texture = materialString.substring(BASE_IDENTIFIER.length());
                 return ItemUtils.getHead(texture);
-            }else {
-                handler.getPlugin().getLogger().info("The material at "+path+" does not seems to be valid. Defaulting to Grass Block");
+            } else {
+                handler.getPlugin().getLogger().info("The material at " + path + " does not seems to be valid. Defaulting to Grass Block");
                 return new ItemStack(Material.GRASS_BLOCK);
             }
         }
     }
 
+    public InputStream getResourceAsInputStream(@NotNull String name) {
+        return this.handler.getPlugin().getResource(name);
+    }
+
+    public boolean saveResourceTo(@NotNull InputStream resourceStream, @NotNull String folderName, @NotNull String fileName) {
+        final File file = new File(handler.getPlugin().getDataFolder() + File.separator + folderName, fileName);
+        if (!file.exists()) {
+            try (OutputStream outputStream = new FileOutputStream(file, false)) {
+                resourceStream.transferTo(outputStream);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
+

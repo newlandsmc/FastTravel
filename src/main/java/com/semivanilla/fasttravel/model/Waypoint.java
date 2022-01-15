@@ -1,15 +1,12 @@
 package com.semivanilla.fasttravel.model;
 
 import com.semivanilla.fasttravel.utils.plugin.LocationUtils;
-import de.leonhard.storage.sections.FlatFileSection;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BoundingBox;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +18,7 @@ public final class Waypoint {
     private final ItemStack icon;
     private final List<String> lore;
     private final Location waypoint;
+    public static final String DEFAULT_ICON = "default.png";
 
     private final BoundingBox radius;
     private boolean active;
@@ -28,11 +26,12 @@ public final class Waypoint {
     private static final int DEFAULT_OFFSET_X = 5;
     private static final int DEFAULT_OFFSET_Y = 5;
     private static final int DEFAULT_OFFSET_Z = 5;
-    private static final List<String> DEFAULT_LORE = new ArrayList<String>(){{
+    private final String iconName;
+    private static final List<String> DEFAULT_LORE = new ArrayList<String>() {{
         add("<white>Coming soon!");
     }};
 
-    public Waypoint(String name, ItemStack icon, List<String> lore, Location waypoint, int offsetRadiusX, int offsetRadiusY, int offsetRadiusZ) {
+    public Waypoint(String name, ItemStack icon, List<String> lore, Location waypoint, int offsetRadiusX, int offsetRadiusY, int offsetRadiusZ, String iconName) {
         this.name = name;
         this.icon = icon;
         this.lore = lore;
@@ -52,6 +51,7 @@ public final class Waypoint {
 
         this.radius = BoundingBox.of(c1,c2);
         this.active = true;
+        this.iconName = iconName;
     }
 
     public String getName() {
@@ -90,6 +90,20 @@ public final class Waypoint {
         return radius.contains(location.getX(),location.getY(),location.getZ());
     }
 
+    public static Map<String,Object> serializeRawWaypoint(@NotNull Location location){
+        final HashMap<String,Object> map = new HashMap<>();
+        final HashMap<String, Object> offsetRadius = new HashMap<>();
+        map.put("location",LocationUtils.serializeLocation(location));
+        map.put("icon", Material.GRASS_BLOCK.name());
+        map.put("lore", DEFAULT_LORE.stream().toList());
+        map.put("icon-name", "default.png");
+        offsetRadius.put("x", DEFAULT_OFFSET_X);
+        offsetRadius.put("y", DEFAULT_OFFSET_Y);
+        offsetRadius.put("z", DEFAULT_OFFSET_Z);
+        map.put("offset-radius", offsetRadius);
+        return map;
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -98,32 +112,23 @@ public final class Waypoint {
         this.active = active;
     }
 
-    public static Map<String,Object> serializeRawWaypoint(@NotNull Location location){
-        final HashMap<String,Object> map = new HashMap<>();
-        final HashMap<String, Object> offsetRadius = new HashMap<>();
-        map.put("location",LocationUtils.serializeLocation(location));
-        map.put("icon", Material.GRASS_BLOCK.name());
-        map.put("lore",DEFAULT_LORE.stream().toList());
-        offsetRadius.put("x",DEFAULT_OFFSET_X);
-        offsetRadius.put("y",DEFAULT_OFFSET_Y);
-        offsetRadius.put("z",DEFAULT_OFFSET_Z);
-        map.put("offset-radius",offsetRadius);
-        return map;
+    public static Waypoint buildFrom(@NotNull String name, @NotNull ItemStack icon, @NotNull List<String> lore, @NotNull Location location, int offsetX, int offsetY, int offsetZ, String iconName) {
+        return new Waypoint(name, icon, lore, location, offsetX, offsetY, offsetZ, iconName);
     }
 
-
-    public static Waypoint buildFrom(@NotNull String name,@NotNull ItemStack icon, @NotNull List<String> lore, @NotNull Location location, int offsetX, int offsetY, int offsetZ ){
-        return new Waypoint(name, icon, lore, location, offsetX, offsetY, offsetZ);
-    }
-
-    public static Waypoint buildFrom(@NotNull String name, @NotNull Location location){
+    public static Waypoint buildFrom(@NotNull String name, @NotNull Location location) {
         return new Waypoint(name
-                ,new ItemStack(Material.GRASS_BLOCK)
-                ,DEFAULT_LORE.stream().toList()
-                ,location
-                ,DEFAULT_OFFSET_X
-                ,DEFAULT_OFFSET_Y
-                ,DEFAULT_OFFSET_Z
+                , new ItemStack(Material.GRASS_BLOCK)
+                , DEFAULT_LORE.stream().toList()
+                , location
+                , DEFAULT_OFFSET_X
+                , DEFAULT_OFFSET_Y
+                , DEFAULT_OFFSET_Z
+                , "default.png"
         );
+    }
+
+    public String getIconName() {
+        return iconName;
     }
 }
