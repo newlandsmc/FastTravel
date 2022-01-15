@@ -40,6 +40,7 @@ public class ImageRegister {
             } catch (IOException e) {
                 e.printStackTrace();
                 hook.getManager().getPlugin().getLogger().severe("Unable to buffer up the image " + iconName + ". This icon will be skipped!");
+
             }
         });
         hook.getManager().getPlugin().getLogger().info("Successfully registered " + imageDirectory.size() + " image from squaremap");
