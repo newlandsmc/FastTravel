@@ -48,7 +48,7 @@ public class FileUtils {
     }
 
     public Json createJson(@NotNull String fileName){
-        return new Json(fileName,manager.getPlugin().getDataFolder().getPath()+ File.separator+"data");
+        return new Json(fileName, manager.getPlugin().getDataFolder().getPath() + File.separator + "storage");
     }
 
     public Yaml createYamlFile(@NotNull String fileName){

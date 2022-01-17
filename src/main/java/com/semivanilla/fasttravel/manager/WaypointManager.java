@@ -71,14 +71,17 @@ public final class WaypointManager {
         }
     }
 
+    public Waypoint getWaypoint(@NotNull String name) {
+        return waypointHashMap.get(name);
+    }
 
-    public boolean isWaypointActive(@NotNull String name){
-        if(contains(name))
+    public boolean isWaypointActive(@NotNull String name) {
+        if (contains(name))
             return waypointHashMap.get(name).isActive();
         else return false;
     }
 
-    public boolean updateToPluginCache(@NotNull String name){
+    public boolean updateToPluginCache(@NotNull String name) {
         removeWaypoint(name);
 
         Optional<Waypoint> optionalWaypoint = plugin.getFileHandler().getWaypointConfiguration().fetchWaypoint(name);

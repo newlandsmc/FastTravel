@@ -75,7 +75,14 @@ public abstract class AbstractFile {
     protected Optional<Waypoint> deserializeWaypoint(@NotNull String name){
         Optional<Location> location = deserializeLocation(name+".location");
         if(location.isPresent()) {
-            return Optional.of(Waypoint.buildFrom(name, getMaterial(name + ".icon"), file.getStringList(name + ".lore"), location.get(), file.getInt(name + ".offset-radius.x"), file.getInt(name + ".offset-radius.y"), file.getInt(name + ".offset-radius.z"), file.getString(name + ".icon-name")));
+            final int row = file.getInt(name + ".gui.row");
+            final int col = file.getInt(name + ".gui.col");
+
+            if (row == 0 || col == 0) {
+                handler.getPlugin().getLogger().warning("GUI for " + name + " seems to be not configured. They will not be added onto the menu");
+            }
+
+            return Optional.of(Waypoint.buildFrom(name, getMaterial(name + ".icon"), file.getStringList(name + ".lore"), location.get(), file.getInt(name + ".offset-radius.x"), file.getInt(name + ".offset-radius.y"), file.getInt(name + ".offset-radius.z"), file.getString(name + ".icon-name"), row, col));
         } else {
             handler.getPlugin().getLogger().severe("Failed to obtain location for the waypoint. Deserialization failed!");
             return Optional.empty();
