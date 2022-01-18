@@ -126,7 +126,7 @@ public final class PlayerManager {
      */
     public void teleportPlayer(@NotNull Player player, @NotNull Waypoint waypoint) {
         if (!player.isOnline()) {
-            plugin.getLogger().info(player.getName() + " seems to be offline, remove the teleport");
+            plugin.getLogger().info(player.getName() + " seems to be offline, removed the teleportation task");
             return;
         }
         plugin.getServer().getScheduler().runTask(plugin, new Runnable() {

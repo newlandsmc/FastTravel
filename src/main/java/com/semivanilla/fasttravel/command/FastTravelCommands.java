@@ -2,6 +2,7 @@ package com.semivanilla.fasttravel.command;
 
 import com.semivanilla.fasttravel.command.core.CommandHandler;
 import com.semivanilla.fasttravel.command.core.CommandResponse;
+import com.semivanilla.fasttravel.gui.WaypointMenu;
 import com.semivanilla.fasttravel.model.Waypoint;
 import com.semivanilla.fasttravel.utils.plugin.MiniMessageUtils;
 import me.mattstudios.mf.annotations.*;
@@ -21,8 +22,9 @@ public class FastTravelCommands extends CommandBase {
 
     @Default
     @Permission("fasttravel.use")
-    public void onDefault(final Player player){
-        player.sendMessage("Open GUI");
+    public void onDefault(final Player player) {
+        new WaypointMenu(handler.getPlugin(), player).openMenu();
+
     }
 
     @SubCommand("create")

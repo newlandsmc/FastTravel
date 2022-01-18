@@ -5,10 +5,7 @@ import com.semivanilla.fasttravel.model.Waypoint;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public final class WaypointManager {
 
@@ -42,6 +39,11 @@ public final class WaypointManager {
     public List<Waypoint> getAllActiveWaypoints() {
         return waypointHashMap.values().stream().filter(Waypoint::isActive).toList();
     }
+
+    public Iterator<Waypoint> getAllActiveWaypointIterator() {
+        return getAllActiveWaypoints().listIterator();
+    }
+
 
     public Optional<Waypoint> getIfInsideWaypoint(@NotNull Location location) {
         return getAllWaypoints().stream().filter(Waypoint::isActive).filter(waypoint -> waypoint.isInside(location)).findAny();

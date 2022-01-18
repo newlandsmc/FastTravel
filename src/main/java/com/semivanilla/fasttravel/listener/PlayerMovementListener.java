@@ -29,4 +29,5 @@ public class PlayerMovementListener extends AbstractListener implements Listener
 
         getPlayerManager().updatePlayerMovedOnTask(player);
     }
+
 }
