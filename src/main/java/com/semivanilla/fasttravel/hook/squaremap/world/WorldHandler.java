@@ -57,8 +57,9 @@ public final class WorldHandler {
             hook.getManager().getPlugin().getLogger().warning("Failed to set icon for waypoint " + name + " as icon provided " + iconName + " does not seems to be registered.");
             return;
         }
-        final Icon icon = Marker.icon(BukkitAdapter.point(location), iconImageKey, 10);
+        final Icon icon = Marker.icon(BukkitAdapter.point(location), iconImageKey, hook.getManager().getPlugin().getFileHandler().getConfiguration().getIconSize());
         icon.markerOptions(MarkerOptions.builder().hoverTooltip(name));
+
         final Key key = Key.key(name);
         registeredKeys.put(name, key);
         this.provider.addMarker(Key.key(name), icon);

@@ -12,6 +12,7 @@ teleportation-delay-in-sec: 5
 ##sec to initiate next teleportation
 cooldown-between-teleportation-in-sec: 10
 
+square-map-icon-size: 40
 ##GUI Configuration
 #name: Name of the GUI
 #rows: no of rows the plugin should have.

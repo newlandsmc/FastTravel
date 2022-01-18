@@ -15,6 +15,8 @@ public final class Configuration extends AbstractFile {
     private String onQueue, teleportationCommencing, teleportCancelledOnMove, teleportCancelledForNewRequest, newWaypointDiscovered, waypointLocked, inCooldownMessage;
     private String errorMessageNoPerm, errorMessageUnknownCommand;
 
+    private int iconSize;
+
     //GUI Configuration
     private String menuName;
     private int rowSize;
@@ -41,6 +43,7 @@ public final class Configuration extends AbstractFile {
     public void loadConfig() {
         this.teleportationDelay = this.file.getInt("teleportation-delay-in-sec");
         this.coolDownForTeleportation = this.file.getInt("cooldown-between-teleportation-in-sec");
+        this.iconSize = this.file.getInt("square-map-icon-size");
 
         this.file.setPathPrefix("messages");
         this.onQueue = this.file.getString("on-teleport-queue");
@@ -156,5 +159,9 @@ public final class Configuration extends AbstractFile {
 
     public boolean isAdditionalButtonEnabled() {
         return additionalButtonEnabled;
+    }
+
+    public int getIconSize() {
+        return iconSize;
     }
 }
