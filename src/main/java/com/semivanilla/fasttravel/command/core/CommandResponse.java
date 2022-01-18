@@ -14,7 +14,10 @@ public enum CommandResponse {
     STATUS_TOGGLE_ENABLED("<green>Waypoint has been enabled"),
     PLUGIN_RELOADED("<green>Plugin reload complete"),
     WAYPOINT_UPDATED("<aqua>The waypoint %name% has been updated!"),
-    WAYPOINT_UPDATE_FAILED("<red>Failed to update waypoint. Waypoint configuration seems to be invalid, validation error should be posted in console")
+    WAYPOINT_UPDATE_FAILED("<red>Failed to update waypoint. Waypoint configuration seems to be invalid, validation error should be posted in console"),
+    TELEPORTED_TO_WAYPOINT("<green>You have been teleported to the waypoint"),
+    TELEPORTED_TO_WAYPOINT_BY_OTHER("<green>You have been teleported to this waypoint by <gold>%name%"),
+    NO_PERMISSION("<red>You do not have permission to do that."),
     ;
 
     private String response;

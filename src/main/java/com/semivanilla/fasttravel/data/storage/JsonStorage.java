@@ -54,7 +54,7 @@ public final class JsonStorage implements DataImpl {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
-                storageCache.set(data.playerID().toString(), data.visitedPoints());
+                storageCache.set(data.getPlayerID().toString(), data.getVisitedPoints());
             }
         });
     }

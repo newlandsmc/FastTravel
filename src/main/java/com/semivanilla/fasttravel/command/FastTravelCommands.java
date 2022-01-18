@@ -2,6 +2,7 @@ package com.semivanilla.fasttravel.command;
 
 import com.semivanilla.fasttravel.command.core.CommandHandler;
 import com.semivanilla.fasttravel.command.core.CommandResponse;
+import com.semivanilla.fasttravel.model.Waypoint;
 import com.semivanilla.fasttravel.utils.plugin.MiniMessageUtils;
 import me.mattstudios.mf.annotations.*;
 import me.mattstudios.mf.base.CommandBase;
@@ -123,25 +124,50 @@ public class FastTravelCommands extends CommandBase {
     public void onCommandReload(final CommandSender sender, @Optional String name){
         if(name == null){
             handler.getPlugin().handleReload();
-            MiniMessageUtils.sendMessage(sender,CommandResponse.PLUGIN_RELOADED.getResponse());
-            return;
-        }else {
-            if(handler.getPlugin().getFileHandler().getWaypointConfiguration().contains(name)){
-                if(handler.getPlugin().getWaypointManager().updateToPluginCache(name)){
-                    MiniMessageUtils.sendMessage(sender,CommandResponse.WAYPOINT_UPDATED.getResponse().replace("%name%",name));
-                    return;
-                }else {
-                    MiniMessageUtils.sendMessage(sender,CommandResponse.WAYPOINT_UPDATE_FAILED.getResponse());
-                    return;
+            MiniMessageUtils.sendMessage(sender, CommandResponse.PLUGIN_RELOADED.getResponse());
+        } else {
+            if (handler.getPlugin().getFileHandler().getWaypointConfiguration().contains(name)) {
+                if (handler.getPlugin().getWaypointManager().updateToPluginCache(name)) {
+                    MiniMessageUtils.sendMessage(sender, CommandResponse.WAYPOINT_UPDATED.getResponse().replace("%name%", name));
+                } else {
+                    MiniMessageUtils.sendMessage(sender, CommandResponse.WAYPOINT_UPDATE_FAILED.getResponse());
                 }
-            }else {
-                MiniMessageUtils.sendMessage(sender,CommandResponse.NO_WAYPOINT_WITH_NAME_EXISTS.getResponse());
-                return;
+            } else {
+                MiniMessageUtils.sendMessage(sender, CommandResponse.NO_WAYPOINT_WITH_NAME_EXISTS.getResponse());
             }
         }
     }
 
+    @SubCommand("tp")
+    @Permission("fasttravel.tp")
+    @Completion({"#activepoints", "#players"})
+    public void onTeleportCommand(final Player player, final String waypointName, @Optional Player anotherPlayer) {
+        if (waypointName == null) {
+            handler.getPlugin().handleReload();
+            MiniMessageUtils.sendMessage(player, CommandResponse.PLUGIN_RELOADED.getResponse());
+            return;
+        }
 
+        if (!handler.getPlugin().getWaypointManager().contains(waypointName)) {
+            MiniMessageUtils.sendMessage(player, CommandResponse.NO_WAYPOINT_WITH_NAME_EXISTS.getResponse());
+            return;
+        }
+
+        final Waypoint waypoint = handler.getPlugin().getWaypointManager().getWaypoint(waypointName);
+
+        if (anotherPlayer != null) {
+            if (player.hasPermission("fasttravel.tp.others")) {
+                anotherPlayer.teleport(waypoint.getWaypoint());
+                MiniMessageUtils.sendMessage(anotherPlayer, CommandResponse.TELEPORTED_TO_WAYPOINT_BY_OTHER.getResponse().replace("%name%", player.getName()));
+            } else {
+                MiniMessageUtils.sendMessage(player, CommandResponse.NO_PERMISSION.getResponse());
+            }
+        } else {
+            player.teleport(waypoint.getWaypoint());
+            MiniMessageUtils.sendMessage(player, CommandResponse.TELEPORTED_TO_WAYPOINT.getResponse());
+        }
+
+    }
 
 }
 

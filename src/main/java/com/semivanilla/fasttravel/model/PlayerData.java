@@ -7,7 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public record PlayerData(UUID playerID, List<String> visitedPoints) {
+public class PlayerData {
+
+    private UUID playerID;
+    private List<String> visitedPoints;
+
+    public PlayerData(UUID playerID, List<String> visitedPoints) {
+        this.playerID = playerID;
+        this.visitedPoints = visitedPoints;
+    }
+
+    public UUID getPlayerID() {
+        return playerID;
+    }
+
+    public List<String> getVisitedPoints() {
+        return visitedPoints;
+    }
 
     public static PlayerData from(FlatFileSection section) {
         return new PlayerData(UUID.fromString(section.getPathPrefix()), section.getStringList(section.getPathPrefix()));

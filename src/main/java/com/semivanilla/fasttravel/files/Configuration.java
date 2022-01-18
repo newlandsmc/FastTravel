@@ -5,6 +5,8 @@ import com.semivanilla.fasttravel.files.core.FileHandler;
 
 public final class Configuration extends AbstractFile {
 
+    private int teleportationDelay;
+
     public Configuration(FileHandler handler) {
         super(handler);
     }
@@ -18,6 +20,10 @@ public final class Configuration extends AbstractFile {
 
     @Override
     public void loadConfig() {
+        this.teleportationDelay = this.file.getInt("teleportation-delay-in-sec");
+    }
 
+    public int getTeleportationDelay() {
+        return teleportationDelay;
     }
 }
