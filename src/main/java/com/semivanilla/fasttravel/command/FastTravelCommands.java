@@ -163,7 +163,9 @@ public class FastTravelCommands extends CommandBase {
                 MiniMessageUtils.sendMessage(player, CommandResponse.NO_PERMISSION.getResponse());
             }
         } else {
-            player.teleport(waypoint.getWaypoint());
+            //TODO remove after testing
+            //player.teleport(waypoint.getWaypoint());
+            handler.getPlugin().getPlayerManager().teleportPlayer(player, waypoint);
             MiniMessageUtils.sendMessage(player, CommandResponse.TELEPORTED_TO_WAYPOINT.getResponse());
         }
 

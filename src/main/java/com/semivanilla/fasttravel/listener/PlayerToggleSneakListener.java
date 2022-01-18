@@ -30,7 +30,6 @@ public class PlayerToggleSneakListener extends AbstractListener implements Liste
             if (!getPlayerManager().isUnlocked(player.getUniqueId(), waypoint.get().getName())) {
                 getPlayerManager().unlockWaypointForPlayer(player.getUniqueId(), waypoint.get().getName());
             }
-
         }
     }
 

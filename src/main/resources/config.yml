@@ -7,3 +7,19 @@
 
 ##When a player click for teleportation, how many sec he should wait before a teleportation commence
 teleportation-delay-in-sec: 5
+
+##This cool-down will be placed after a player gets teleported successfully. once active he/she will have to wait for X
+##sec to initiate next teleportation
+cooldown-between-teleportation-in-sec: 10
+
+messages:
+  on-teleport-queue: "<yellow>Teleporting in 5 seconds, don't move..."
+  teleport-commencing: "<yellow>Teleporting..."
+  teleport-cancelled:
+    on-move: "<red>Pending teleportation request cancelled."
+    on-new-request: "<red>Pending teleportation request cancelled in favour for new teleportation request."
+  ## Available Placeholder: %waypoint_name% -> Name of the waypoint
+  waypoint-discovered: "<green>You discovered %waypoint_name%! Now you can teleport to this waypoint!"
+  waypoint-locked: "<red>You must visit this location to unlock this waypoint."
+  ## Available Placeholder: %cool-down% -> Cooldown in secs
+  player-in-cooldown: "<red>you are in cool-down for %cool-down% secs. Try later!"

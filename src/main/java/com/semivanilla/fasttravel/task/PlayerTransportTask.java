@@ -2,6 +2,7 @@ package com.semivanilla.fasttravel.task;
 
 import com.semivanilla.fasttravel.FastTravel;
 import com.semivanilla.fasttravel.model.Waypoint;
+import com.semivanilla.fasttravel.utils.plugin.MiniMessageUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -33,7 +34,7 @@ public final class PlayerTransportTask extends BukkitRunnable {
 
         if (playerMoved) {
             this.cancelTimer();
-            //TODO add message for movement cancelled
+            MiniMessageUtils.sendMessage(player, plugin.getFileHandler().getConfiguration().getTeleportCancelledOnMove());
             return;
         }
 
@@ -43,7 +44,6 @@ public final class PlayerTransportTask extends BukkitRunnable {
     public void cancelTimer() {
         this.cancel();
         this.plugin.getPlayerManager().removeTransportTask(this.player.getUniqueId());
-        ;
     }
 
     public void setPlayerMoved(boolean playerMoved) {
