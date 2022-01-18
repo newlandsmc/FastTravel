@@ -10,6 +10,7 @@ public final class Configuration extends AbstractFile {
 
     //Messages
     private String onQueue, teleportationCommencing, teleportCancelledOnMove, teleportCancelledForNewRequest, newWaypointDiscovered, waypointLocked, inCooldownMessage;
+    private String errorMessageNoPerm, errorMessageUnknownCommand;
 
     public Configuration(FileHandler handler) {
         super(handler);
@@ -35,6 +36,9 @@ public final class Configuration extends AbstractFile {
         this.newWaypointDiscovered = this.file.getString("waypoint-discovered");
         this.waypointLocked = this.file.getString("waypoint-locked");
         this.inCooldownMessage = this.file.getString("player-in-cooldown");
+
+        this.errorMessageNoPerm = this.file.getString("no-permission");
+        this.errorMessageUnknownCommand = this.file.getString("unknown-command");
         this.file.setPathPrefix(null);
     }
 
@@ -72,5 +76,13 @@ public final class Configuration extends AbstractFile {
 
     public String getInCoolDownMessage() {
         return inCooldownMessage;
+    }
+
+    public String getErrorMessageNoPerm() {
+        return errorMessageNoPerm;
+    }
+
+    public String getErrorMessageUnknownCommand() {
+        return errorMessageUnknownCommand;
     }
 }

@@ -81,11 +81,18 @@ public final class WaypointManager {
         else return false;
     }
 
+    public void unloadWaypointFromMap(@NotNull String name) {
+        if (contains(name)) {
+            plugin.getHookManager().removeIcon(name, waypointHashMap.get(name).getWaypoint().getWorld().getName());
+            waypointHashMap.remove(name);
+        }
+    }
+
     public boolean updateToPluginCache(@NotNull String name) {
-        removeWaypoint(name);
+        unloadWaypointFromMap(name);
 
         Optional<Waypoint> optionalWaypoint = plugin.getFileHandler().getWaypointConfiguration().fetchWaypoint(name);
-        if(optionalWaypoint.isPresent()) {
+        if (optionalWaypoint.isPresent()) {
             this.insert(optionalWaypoint);
             Waypoint waypoint = optionalWaypoint.get();
             plugin.getHookManager().addIconToMap(name, waypoint.getWaypoint(), waypoint.getIconName());

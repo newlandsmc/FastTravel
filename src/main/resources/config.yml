@@ -23,3 +23,5 @@ messages:
   waypoint-locked: "<red>You must visit this location to unlock this waypoint."
   ## Available Placeholder: %cool-down% -> Cooldown in secs
   player-in-cooldown: "<red>you are in cool-down for %cool-down% secs. Try later!"
+  no-permission: "<red>You do not have permission to do that."
+  unknown-command: "<red>Unknown command"

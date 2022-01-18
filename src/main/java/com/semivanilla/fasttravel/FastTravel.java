@@ -7,6 +7,7 @@ import com.semivanilla.fasttravel.files.core.FileHandler;
 import com.semivanilla.fasttravel.hook.HookManager;
 import com.semivanilla.fasttravel.listener.PlayerJoinListener;
 import com.semivanilla.fasttravel.listener.PlayerLeaveListener;
+import com.semivanilla.fasttravel.listener.PlayerMovementListener;
 import com.semivanilla.fasttravel.listener.PlayerToggleSneakListener;
 import com.semivanilla.fasttravel.manager.PlayerManager;
 import com.semivanilla.fasttravel.manager.WaypointManager;
@@ -50,6 +51,7 @@ public final class FastTravel extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerToggleSneakListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerMovementListener(this), this);
 
         commandHandler.registerOthers();
         commandHandler.registerCommands();

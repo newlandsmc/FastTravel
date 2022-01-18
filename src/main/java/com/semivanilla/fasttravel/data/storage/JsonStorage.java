@@ -33,7 +33,7 @@ public final class JsonStorage implements DataImpl {
             @Override
             public Optional<PlayerData> get() {
                 if (storageCache.contains(playerUUID.toString())) {
-                    return Optional.of(PlayerData.from(storageCache.getSection(playerUUID.toString())));
+                    return Optional.of(PlayerData.from(playerUUID, storageCache.getStringList(playerUUID.toString())));
                 } else return Optional.empty();
             }
         });

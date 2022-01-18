@@ -1,8 +1,8 @@
 package com.semivanilla.fasttravel.model;
 
-import de.leonhard.storage.sections.FlatFileSection;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +53,8 @@ public final class PlayerData {
         }
     }
 
-    public static PlayerData from(FlatFileSection section) {
-        return new PlayerData(UUID.fromString(section.getPathPrefix()), section.getStringList(section.getPathPrefix()));
+    public static PlayerData from(@NotNull UUID uuid, @NotNull List<String> list) {
+        return new PlayerData(uuid, list);
     }
 
     public static PlayerData from(Player player) {

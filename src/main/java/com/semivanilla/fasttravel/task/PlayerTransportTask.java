@@ -37,7 +37,6 @@ public final class PlayerTransportTask extends BukkitRunnable {
             MiniMessageUtils.sendMessage(player, plugin.getFileHandler().getConfiguration().getTeleportCancelledOnMove());
             return;
         }
-
         counter++;
     }
 
