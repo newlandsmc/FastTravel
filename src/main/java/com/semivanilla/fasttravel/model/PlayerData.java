@@ -47,7 +47,7 @@ public final class PlayerData {
 
     public String getCoolDownInSec() {
         if (isInCoolDown()) {
-            return String.valueOf(TimeUnit.MILLISECONDS.toSeconds(this.coolDownMillis));
+            return String.valueOf(TimeUnit.MILLISECONDS.toSeconds(this.coolDownMillis - System.currentTimeMillis()));
         } else {
             return "0";
         }

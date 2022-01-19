@@ -39,6 +39,13 @@ gui:
 
 
 messages:
+  help:
+    header: "<yellow><strikethrough>                         <reset> Waypoint Help <yellow><strikethrough>                         <reset>"
+    ##Available Placeholder:
+    #%command% -> Parses the command
+    #%description% -> Parses the description
+    command: "<gold>%command%<white>: %description%"
+    footer: "<yellow><strikethrough>                                                                  <reset>"
   on-teleport-queue: "<yellow>Teleporting in 5 seconds, don't move..."
   teleport-commencing: "<yellow>Teleporting..."
   teleport-cancelled:

@@ -102,24 +102,6 @@ public class FastTravelCommands extends CommandBase {
         else MiniMessageUtils.sendMessage(player,CommandResponse.STATUS_TOGGLED_DISABLED.getResponse());
     }
 
-    @SubCommand("info")
-    @Permission("fasttravel.info")
-    @Completion({"#allpoints"})
-    public void onCommandInfo(final Player player, String name){
-        if(name == null){
-            MiniMessageUtils.sendMessage(player,CommandResponse.WAYPOINT_COMMAND_NO_NAME_PROVIDED.getResponse());
-            return;
-        }
-
-        if(!handler.getPlugin().getWaypointManager().contains(name)){
-            MiniMessageUtils.sendMessage(player,CommandResponse.NO_WAYPOINT_WITH_NAME_EXISTS.getResponse());
-            return;
-        }
-
-        player.sendMessage("TODO");
-        //TODO
-    }
-
     @SubCommand("reload")
     @Permission("fasttravel.reload")
     @Completion({"#activepoints"})
@@ -165,12 +147,20 @@ public class FastTravelCommands extends CommandBase {
                 MiniMessageUtils.sendMessage(player, CommandResponse.NO_PERMISSION.getResponse());
             }
         } else {
-            //TODO remove after testing
-            //player.teleport(waypoint.getWaypoint());
-            handler.getPlugin().getPlayerManager().preparePlayerTransport(player, waypoint);
+            player.teleport(waypoint.getWaypoint());
             MiniMessageUtils.sendMessage(player, CommandResponse.TELEPORTED_TO_WAYPOINT.getResponse());
         }
+    }
 
+    @SubCommand("help")
+    public void onCommandHelp(final CommandSender sender) {
+        MiniMessageUtils.sendMessage(sender, handler.getPlugin().getFileHandler().getConfiguration().getHelpHeader());
+        CommandHandler.commandDescriptionMapping.forEach((command, description) -> {
+            MiniMessageUtils.sendMessage(sender, handler.getPlugin().getFileHandler().getConfiguration().getHelpCommand()
+                    .replace("%command%", command)
+                    .replace("%description%", description));
+        });
+        MiniMessageUtils.sendMessage(sender, handler.getPlugin().getFileHandler().getConfiguration().getHelpFooter());
     }
 
 }

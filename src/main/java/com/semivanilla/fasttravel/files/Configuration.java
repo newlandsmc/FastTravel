@@ -14,6 +14,7 @@ public final class Configuration extends AbstractFile {
     //Messages
     private String onQueue, teleportationCommencing, teleportCancelledOnMove, teleportCancelledForNewRequest, newWaypointDiscovered, waypointLocked, inCooldownMessage;
     private String errorMessageNoPerm, errorMessageUnknownCommand;
+    private String helpHeader, helpFooter, helpCommand;
 
     private int iconSize;
 
@@ -47,6 +48,9 @@ public final class Configuration extends AbstractFile {
 
         this.file.setPathPrefix("messages");
         this.onQueue = this.file.getString("on-teleport-queue");
+        this.helpHeader = this.file.getString("help.header");
+        this.helpFooter = this.file.getString("help.footer");
+        this.helpCommand = this.file.getString("help.command");
         this.teleportationCommencing = this.file.getString("teleport-commencing");
         this.teleportCancelledOnMove = this.file.getString("teleport-cancelled.on-move");
         this.teleportCancelledForNewRequest = this.file.getString("teleport-cancelled.on-new-request");
@@ -163,5 +167,17 @@ public final class Configuration extends AbstractFile {
 
     public int getIconSize() {
         return iconSize;
+    }
+
+    public String getHelpHeader() {
+        return helpHeader;
+    }
+
+    public String getHelpFooter() {
+        return helpFooter;
+    }
+
+    public String getHelpCommand() {
+        return helpCommand;
     }
 }
