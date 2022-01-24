@@ -59,8 +59,8 @@ public final class FastTravel extends JavaPlugin {
         hookManager.initHooks();
 
 
-        Test test = new Test(this);
-        getCommand("test").setExecutor(test);
+        //Test test = new Test(this);
+        //getCommand("test").setExecutor(test);
 
         getServer().getPluginManager().registerEvents(test, this);
     }

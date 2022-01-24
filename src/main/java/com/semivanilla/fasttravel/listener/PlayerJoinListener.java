@@ -18,10 +18,8 @@ public final class PlayerJoinListener extends AbstractListener implements Listen
         final Player player = event.getPlayer();
         getDataStorage().getIfPresent(player.getUniqueId()).thenAccept(playerData -> {
             if (playerData.isPresent()) {
-                System.out.println("Is present");
                 getPlayerManager().cachePlayerData(playerData.get());
             } else {
-                System.out.println("Is not present");
                 final PlayerData newData = PlayerData.from(player);
                 getPlayerManager().cachePlayerData(newData);
                 getDataStorage().register(player.getUniqueId());
