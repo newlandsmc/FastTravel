@@ -62,7 +62,7 @@ public final class FastTravel extends JavaPlugin {
         //Test test = new Test(this);
         //getCommand("test").setExecutor(test);
 
-        getServer().getPluginManager().registerEvents(test, this);
+        //getServer().getPluginManager().registerEvents(test, this);
     }
 
     public void handleReload() {

@@ -24,7 +24,6 @@ public class FastTravelCommands extends CommandBase {
     @Permission("fasttravel.use")
     public void onDefault(final Player player) {
         new WaypointMenu(handler.getPlugin(), player).openMenu();
-
     }
 
     @SubCommand("create")

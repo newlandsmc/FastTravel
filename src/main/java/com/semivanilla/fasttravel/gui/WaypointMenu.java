@@ -85,7 +85,6 @@ public final class WaypointMenu {
                                     MiniMessageUtils.sendMessage(player, plugin.getFileHandler().getConfiguration().getWaypointLocked());
                                 });
                     }
-
                     gui.setItem(waypoint.getRow(), waypoint.getColumn(), item);
 
                 }));
