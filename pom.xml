@@ -99,7 +99,7 @@
         </repository>
         <repository>
             <id>squaremap-snapshots</id>
-            <url>https://repo.jpenilla.xyz/snapshots/</url>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 
@@ -129,7 +129,7 @@
         <dependency>
             <groupId>me.mattstudios.utils</groupId>
             <artifactId>matt-framework</artifactId>
-            <version>1.4</version>
+            <version>1.4.6</version>
         </dependency>
         <dependency>
             <groupId>dev.triumphteam</groupId>

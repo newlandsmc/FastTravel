@@ -32,7 +32,7 @@ public final class CommandHandler {
 
     public CommandHandler(FastTravel plugin) {
         this.plugin = plugin;
-        commandManager = new CommandManager(plugin);
+        commandManager = new CommandManager(plugin, true);
     }
 
     public void registerOthers() {
@@ -61,6 +61,8 @@ public final class CommandHandler {
         commandManager.getMessageHandler().register("cmd.no.exists", sender -> {
             MiniMessageUtils.sendMessage(sender, plugin.getFileHandler().getConfiguration().getErrorMessageUnknownCommand());
         });
+
+        commandManager.hideTabComplete(true);
     }
 
     public void registerCommands(){

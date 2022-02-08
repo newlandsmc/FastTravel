@@ -3,7 +3,9 @@ package com.semivanilla.fasttravel.hook.squaremap;
 import com.semivanilla.fasttravel.hook.HookManager;
 import com.semivanilla.fasttravel.hook.squaremap.world.WorldHandler;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
+import xyz.jpenilla.squaremap.api.BukkitAdapter;
 import xyz.jpenilla.squaremap.api.SquaremapProvider;
 
 import java.util.HashMap;
@@ -22,7 +24,8 @@ public class Squaremap {
 
     public boolean registerSquareMap() {
         SquaremapProvider.get().mapWorlds().forEach((world) -> {
-            worldProvider.put(world.name(), new WorldHandler(this, world).registerLayer());
+            final World bWorld = BukkitAdapter.bukkitWorld(world);
+            worldProvider.put(bWorld.getName(), new WorldHandler(this, world).registerLayer());
         });
         return true;
     }
