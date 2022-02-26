@@ -6,8 +6,8 @@ import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.transformation.TransformationRegistry;
-import net.kyori.adventure.text.minimessage.transformation.TransformationType;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.kyori.adventure.title.Title;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
@@ -33,17 +33,18 @@ public class MiniMessageUtils {
         manager = utilityManager;
         audiences = BukkitAudiences.create(manager.getPlugin());
         miniMessage = MiniMessage.builder()
-                .transformations(TransformationRegistry.builder()
-                        .add(TransformationType.COLOR)
-                        .add(TransformationType.DECORATION)
-                        .add(TransformationType.HOVER_EVENT)
-                        .add(TransformationType.CLICK_EVENT)
-                        .add(TransformationType.KEYBIND)
-                        .add(TransformationType.TRANSLATABLE)
-                        .add(TransformationType.INSERTION)
-                        .add(TransformationType.FONT)
-                        .add(TransformationType.GRADIENT)
-                        .add(TransformationType.RAINBOW)
+                .tags(TagResolver.builder()
+                        .resolver(StandardTags.color())
+                        .resolver(StandardTags.decoration())
+                        .resolver(StandardTags.hoverEvent())
+                        .resolver(StandardTags.clickEvent())
+                        .resolver(StandardTags.keybind())
+                        .resolver(StandardTags.translatable())
+                        .resolver(StandardTags.translatable())
+                        .resolver(StandardTags.insertion())
+                        .resolver(StandardTags.font())
+                        .resolver(StandardTags.gradient())
+                        .resolver(StandardTags.rainbow())
                         .build())
                 .strict(false)
                 .build();
