@@ -45,6 +45,7 @@ public class MiniMessageUtils {
                         .resolver(StandardTags.font())
                         .resolver(StandardTags.gradient())
                         .resolver(StandardTags.rainbow())
+                        .resolver(StandardTags.reset())
                         .build())
                 .strict(false)
                 .build();

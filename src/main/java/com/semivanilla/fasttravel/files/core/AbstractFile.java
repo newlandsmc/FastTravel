@@ -82,16 +82,16 @@ public abstract class AbstractFile {
                 handler.getPlugin().getLogger().warning("GUI for " + name + " seems to be not configured. They will not be added onto the menu");
             }
 
-            return Optional.of(Waypoint.buildFrom(name, getMaterial(name + ".icon"), file.getStringList(name + ".lore"), location.get(), file.getInt(name + ".offset-radius.x"), file.getInt(name + ".offset-radius.y"), file.getInt(name + ".offset-radius.z"), file.getString(name + ".icon-name"), row, col));
+            return Optional.of(Waypoint.buildFrom(name, getMaterialFromPath(name + ".icon"), file.getStringList(name + ".lore"), location.get(), file.getInt(name + ".offset-radius.x"), file.getInt(name + ".offset-radius.y"), file.getInt(name + ".offset-radius.z"), file.getString(name + ".icon-name"), row, col));
         } else {
             handler.getPlugin().getLogger().severe("Failed to obtain location for the waypoint. Deserialization failed!");
             return Optional.empty();
         }
     }
 
-    protected ItemStack getMaterial(@NotNull String path){
+    protected ItemStack getMaterialFromPath(@NotNull String path) {
         final String materialString = file.getString(path);
-        if(EnumUtils.isValidEnum(Material.class,materialString))
+        if (EnumUtils.isValidEnum(Material.class, materialString))
             return new ItemStack(Objects.requireNonNull(Material.getMaterial(materialString)));
         else {
             if (materialString.startsWith(BASE_IDENTIFIER)) {
@@ -99,6 +99,20 @@ public abstract class AbstractFile {
                 return ItemUtils.getHead(texture);
             } else {
                 handler.getPlugin().getLogger().info("The material at " + path + " does not seems to be valid. Defaulting to Grass Block");
+                return new ItemStack(Material.GRASS_BLOCK);
+            }
+        }
+    }
+
+    protected ItemStack getMaterial(@NotNull String itemName) {
+        if (EnumUtils.isValidEnum(Material.class, itemName))
+            return new ItemStack(Objects.requireNonNull(Material.getMaterial(itemName)));
+        else {
+            if (itemName.startsWith(BASE_IDENTIFIER)) {
+                final String texture = itemName.substring(BASE_IDENTIFIER.length());
+                return ItemUtils.getHead(texture);
+            } else {
+                handler.getPlugin().getLogger().info("The material " + itemName + " does not seems to be valid. Defaulting to Grass Block");
                 return new ItemStack(Material.GRASS_BLOCK);
             }
         }

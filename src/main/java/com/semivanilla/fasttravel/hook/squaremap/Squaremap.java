@@ -36,7 +36,6 @@ public class Squaremap {
 
     public void registerImagesOnMap() {
         manager.getPlugin().getWaypointManager().getAllActiveWaypoints().iterator().forEachRemaining((waypoint -> {
-            System.out.println(worldProvider.containsKey(waypoint.getWaypoint().getWorld().getName()));
             if (worldProvider.containsKey(waypoint.getWaypoint().getWorld().getName())) {
                 final WorldHandler worldHandler = worldProvider.get(waypoint.getWaypoint().getWorld().getName());
                 worldHandler.showIcon(waypoint.getName(), waypoint.getWaypoint(), waypoint.getIconName());

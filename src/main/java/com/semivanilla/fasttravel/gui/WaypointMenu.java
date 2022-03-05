@@ -5,7 +5,6 @@ import com.semivanilla.fasttravel.utils.plugin.MiniMessageUtils;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -46,11 +45,10 @@ public final class WaypointMenu {
                 final Gui gui = Gui.gui()
                         .disableAllInteractions()
                         .title(MiniMessageUtils.transform(plugin.getFileHandler().getConfiguration().getMenuName()))
-                        .rows(plugin.getFileHandler().getConfiguration().getRowSize() + 1)
+                        .rows(plugin.getFileHandler().getConfiguration().getRowSize())
                         .create();
 
-                final int rowSize = plugin.getFileHandler().getConfiguration().getRowSize();
-
+                /*
                 gui.setItem(rowSize + 1, 1, ItemBuilder.from(Material.BLACK_STAINED_GLASS_PANE).name(Component.empty()).asGuiItem());
                 gui.setItem(rowSize + 1, 2, ItemBuilder.from(Material.BLACK_STAINED_GLASS_PANE).name(Component.empty()).asGuiItem());
                 gui.setItem(rowSize + 1, 3, ItemBuilder.from(Material.BLACK_STAINED_GLASS_PANE).name(Component.empty()).asGuiItem());
@@ -62,7 +60,13 @@ public final class WaypointMenu {
                 gui.setItem(rowSize + 1, 5, ItemBuilder.from(plugin.getFileHandler().getConfiguration().getAdditionalButtonMaterial()).name(MiniMessageUtils.transform(plugin.getFileHandler().getConfiguration().getAdditionalButtonName())).lore(MiniMessageUtils.transform(plugin.getFileHandler().getConfiguration().getAdditionButtonLore())).asGuiItem(event -> {
                     player.performCommand(plugin.getFileHandler().getConfiguration().getAdditionButtonCommand());
                 }));
-
+                 */
+                plugin.getFileHandler().getConfiguration().getGuiFillers().forEach((fillerItem) -> {
+                    final GuiItem item = fillerItem.asItem();
+                    fillerItem.getSlots().forEach(slot -> {
+                        gui.setItem(slot, item);
+                    });
+                });
                 plugin.getWaypointManager().getAllActiveWaypointIterator().forEachRemaining((waypoint -> {
                     if (waypoint.getRow() == 0 || waypoint.getColumn() == 0)
                         return;

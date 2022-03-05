@@ -19,7 +19,7 @@ square-map-icon-size: 40
 ##NOTE: It should be less than 5, as the plugin adds a row as filler in bottom .
 gui:
   name: "Waypoints"
-  rows: 3
+  rows: 5
   buttons:
     unlocked:
       name: "<green>%name%"
@@ -36,6 +36,28 @@ gui:
       lore:
         - "<white>Click to teleport back to home"
       command: "home"
+  filler:
+    BLACK_STAINED_GLASS_PANE:
+      - 0
+      - 1
+      - 7
+      - 8
+      - 9
+      - 10
+      - 16
+      - 17
+      - 18
+      - 19
+      - 25
+      - 26
+      - 27
+      - 28
+      - 34
+      - 35
+      - 36
+      - 37
+      - 43
+      - 44
 
 
 messages:
@@ -46,7 +68,7 @@ messages:
     #%description% -> Parses the description
     command: "<gold>%command%<white>: %description%"
     footer: "<yellow><strikethrough>                                                                  <reset>"
-  on-teleport-queue: "<yellow>Teleporting in 5 seconds, don't move..."
+  on-teleport-queue: <yellow>Teleporting in 5 seconds, don\'t move...
   teleport-commencing: "<yellow>Teleporting..."
   teleport-cancelled:
     on-move: "<red>Pending teleportation request cancelled."

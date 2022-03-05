@@ -2,8 +2,10 @@ package com.semivanilla.fasttravel.files;
 
 import com.semivanilla.fasttravel.files.core.AbstractFile;
 import com.semivanilla.fasttravel.files.core.FileHandler;
+import com.semivanilla.fasttravel.gui.component.Filler;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public final class Configuration extends AbstractFile {
@@ -24,6 +26,7 @@ public final class Configuration extends AbstractFile {
     //Gui Buttons
     private String unlockedButtonName, lockedButtonName, additionalButtonName;
     private List<String> unlockedButtonLore, lockedButtonLore, additionButtonLore;
+    private List<Filler> guiFillers = new ArrayList<>();
 
     private String additionButtonCommand;
     private ItemStack additionalButtonMaterial;
@@ -69,12 +72,18 @@ public final class Configuration extends AbstractFile {
         this.unlockedButtonLore = this.file.getStringList("buttons.unlocked.lore-to-add-at-last");
         this.lockedButtonName = this.file.getString("buttons.locked.name");
         this.lockedButtonLore = this.file.getStringList("buttons.locked.lore-to-add-at-last");
-        this.additionalButtonMaterial = getMaterial("buttons.additional.item");
+        this.additionalButtonMaterial = getMaterialFromPath("buttons.additional.item");
         this.additionalButtonEnabled = this.file.getBoolean("buttons.additional.enabled");
         this.additionalButtonName = this.file.getString("buttons.additional.name");
         this.additionButtonLore = this.file.getStringList("buttons.additional.lore");
         this.additionButtonCommand = this.file.getString("buttons.additional.command");
         this.file.setPathPrefix(null);
+        this.guiFillers.clear();
+        this.file.keySet("gui.filler").forEach((item) -> {
+            this.guiFillers.add(
+                    new Filler(getMaterial(item).getType(), this.file.getStringList("gui.filler." + item))
+            );
+        });
     }
 
     public int getTeleportationDelay() {
@@ -179,5 +188,9 @@ public final class Configuration extends AbstractFile {
 
     public String getHelpCommand() {
         return helpCommand;
+    }
+
+    public List<Filler> getGuiFillers() {
+        return guiFillers;
     }
 }
