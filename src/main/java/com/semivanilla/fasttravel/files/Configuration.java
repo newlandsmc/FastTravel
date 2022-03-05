@@ -3,7 +3,6 @@ package com.semivanilla.fasttravel.files;
 import com.semivanilla.fasttravel.files.core.AbstractFile;
 import com.semivanilla.fasttravel.files.core.FileHandler;
 import com.semivanilla.fasttravel.gui.component.Filler;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +23,9 @@ public final class Configuration extends AbstractFile {
     private String menuName;
     private int rowSize;
     //Gui Buttons
-    private String unlockedButtonName, lockedButtonName, additionalButtonName;
-    private List<String> unlockedButtonLore, lockedButtonLore, additionButtonLore;
+    private String unlockedButtonName, lockedButtonName;
+    private List<String> unlockedButtonLore, lockedButtonLore;
     private List<Filler> guiFillers = new ArrayList<>();
-
-    private String additionButtonCommand;
-    private ItemStack additionalButtonMaterial;
-    private boolean additionalButtonEnabled;
 
     public Configuration(FileHandler handler) {
         super(handler);
@@ -72,11 +67,6 @@ public final class Configuration extends AbstractFile {
         this.unlockedButtonLore = this.file.getStringList("buttons.unlocked.lore-to-add-at-last");
         this.lockedButtonName = this.file.getString("buttons.locked.name");
         this.lockedButtonLore = this.file.getStringList("buttons.locked.lore-to-add-at-last");
-        this.additionalButtonMaterial = getMaterialFromPath("buttons.additional.item");
-        this.additionalButtonEnabled = this.file.getBoolean("buttons.additional.enabled");
-        this.additionalButtonName = this.file.getString("buttons.additional.name");
-        this.additionButtonLore = this.file.getStringList("buttons.additional.lore");
-        this.additionButtonCommand = this.file.getString("buttons.additional.command");
         this.file.setPathPrefix(null);
         this.guiFillers.clear();
         this.file.keySet("gui.filler").forEach((item) -> {
@@ -146,10 +136,6 @@ public final class Configuration extends AbstractFile {
         return lockedButtonName.replace("%name%", p1);
     }
 
-    public String getAdditionalButtonName() {
-        return additionalButtonName;
-    }
-
     public List<String> getUnlockedButtonLore() {
         return unlockedButtonLore;
     }
@@ -158,21 +144,6 @@ public final class Configuration extends AbstractFile {
         return lockedButtonLore.stream().map(w -> w.replace("%x%", String.valueOf(x)).replace("%z%", String.valueOf(z))).toList();
     }
 
-    public List<String> getAdditionButtonLore() {
-        return additionButtonLore;
-    }
-
-    public String getAdditionButtonCommand() {
-        return additionButtonCommand;
-    }
-
-    public ItemStack getAdditionalButtonMaterial() {
-        return additionalButtonMaterial;
-    }
-
-    public boolean isAdditionalButtonEnabled() {
-        return additionalButtonEnabled;
-    }
 
     public int getIconSize() {
         return iconSize;

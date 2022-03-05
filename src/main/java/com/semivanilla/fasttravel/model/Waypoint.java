@@ -14,29 +14,33 @@ import java.util.Map;
 
 public final class Waypoint {
 
+    public static final String DEFAULT_ICON = "default.png";
+    private static final int DEFAULT_GUI_CODE;
+    private static final List<String> DEFAULT_LORE;
+    private static final int DEFAULT_OFFSET_X;
+    private static final int DEFAULT_OFFSET_Y;
+    private static final int DEFAULT_OFFSET_Z;
+
+    static {
+        DEFAULT_LORE = new ArrayList<>();
+        DEFAULT_LORE.add("<white>Coming soon!");
+        DEFAULT_GUI_CODE = 0;
+        DEFAULT_OFFSET_X = 5;
+        DEFAULT_OFFSET_Y = 5;
+        DEFAULT_OFFSET_Z = 5;
+    }
+
     private final String name;
     private final ItemStack icon;
     private final List<String> lore;
     private final Location waypoint;
-    public static final String DEFAULT_ICON = "default.png";
     private final BoundingBox radius;
-    public static final int DEFAULT_GUI_CODE = 0;
-
     private boolean active;
-    private static final List<String> DEFAULT_LORE = new ArrayList<String>();
-
-    static {
-        DEFAULT_LORE.add("<white>Coming soon!");
-    }
-
-    private static final int DEFAULT_OFFSET_X = 5;
-    private static final int DEFAULT_OFFSET_Y = 5;
-    private static final int DEFAULT_OFFSET_Z = 5;
-
     private final String iconName;
     private final int row, column;
+    private final boolean defaultWaypoint;
 
-    public Waypoint(String name, ItemStack icon, List<String> lore, Location waypoint, int offsetRadiusX, int offsetRadiusY, int offsetRadiusZ, String iconName, int row, int column) {
+    public Waypoint(String name, ItemStack icon, List<String> lore, Location waypoint, int offsetRadiusX, int offsetRadiusY, int offsetRadiusZ, String iconName, int row, int column, boolean defaultWaypoint) {
         this.name = name;
         this.icon = icon;
         this.lore = lore;
@@ -59,6 +63,7 @@ public final class Waypoint {
         this.radius = BoundingBox.of(c1, c2);
         this.active = true;
         this.iconName = iconName;
+        this.defaultWaypoint = defaultWaypoint;
     }
 
     public String getName() {
@@ -93,10 +98,6 @@ public final class Waypoint {
         return waypoint.getBlockZ();
     }
 
-    public boolean isInside(@NotNull Location location){
-        return radius.contains(location.getX(),location.getY(),location.getZ());
-    }
-
     public static Map<String,Object> serializeRawWaypoint(@NotNull Location location){
         final HashMap<String, Object> map = new HashMap<>();
         final HashMap<String, Object> offsetRadius = new HashMap<>();
@@ -105,6 +106,7 @@ public final class Waypoint {
         map.put("icon", Material.GRASS_BLOCK.name());
         map.put("lore", DEFAULT_LORE.stream().toList());
         map.put("icon-name", "default.png");
+        map.put("default", false);
         offsetRadius.put("x", DEFAULT_OFFSET_X);
         offsetRadius.put("y", DEFAULT_OFFSET_Y);
         offsetRadius.put("z", DEFAULT_OFFSET_Z);
@@ -115,8 +117,8 @@ public final class Waypoint {
         return map;
     }
 
-    public static Waypoint buildFrom(@NotNull String name, @NotNull ItemStack icon, @NotNull List<String> lore, @NotNull Location location, int offsetX, int offsetY, int offsetZ, String iconName, int row, int column) {
-        return new Waypoint(name, icon, lore, location, offsetX, offsetY, offsetZ, iconName, row, column);
+    public static Waypoint buildFrom(@NotNull String name, @NotNull ItemStack icon, @NotNull List<String> lore, @NotNull Location location, int offsetX, int offsetY, int offsetZ, String iconName, int row, int column, boolean defaultWaypoint) {
+        return new Waypoint(name, icon, lore, location, offsetX, offsetY, offsetZ, iconName, row, column, defaultWaypoint);
     }
 
     public static Waypoint buildFrom(@NotNull String name, @NotNull Location location) {
@@ -130,7 +132,16 @@ public final class Waypoint {
                 , DEFAULT_ICON
                 , DEFAULT_GUI_CODE
                 , DEFAULT_GUI_CODE
+                , false
         );
+    }
+
+    public boolean isInside(@NotNull Location location) {
+        return radius.contains(location.getX(), location.getY(), location.getZ());
+    }
+
+    public boolean isDefaultWaypoint() {
+        return defaultWaypoint;
     }
 
     public boolean isActive() {

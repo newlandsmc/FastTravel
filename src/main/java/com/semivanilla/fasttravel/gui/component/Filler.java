@@ -20,7 +20,7 @@ public class Filler {
     }
 
     public GuiItem asItem() {
-        return ItemBuilder.from(material).name(Component.text("<reset>")).asGuiItem();
+        return ItemBuilder.from(material).name(Component.empty()).asGuiItem();
     }
 
     public List<Integer> getSlots() {

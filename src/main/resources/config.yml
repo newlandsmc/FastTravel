@@ -29,13 +29,6 @@ gui:
       name: "<red>%name%"
       lore-to-add-at-last:
         - "<red>Locked! - visit %x% %z% to unlock."
-    additional:
-      enabled: true
-      item: "base64:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2I1NmU0OTA4NWY1NWQ1ZGUyMTVhZmQyNmZjNGYxYWZlOWMzNDMxM2VmZjk4ZTNlNTgyNDVkZWYwNmU1ODU4YyJ9fX0="
-      name: "<gray>Home"
-      lore:
-        - "<white>Click to teleport back to home"
-      command: "home"
   filler:
     BLACK_STAINED_GLASS_PANE:
       - 0

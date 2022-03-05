@@ -48,19 +48,6 @@ public final class WaypointMenu {
                         .rows(plugin.getFileHandler().getConfiguration().getRowSize())
                         .create();
 
-                /*
-                gui.setItem(rowSize + 1, 1, ItemBuilder.from(Material.BLACK_STAINED_GLASS_PANE).name(Component.empty()).asGuiItem());
-                gui.setItem(rowSize + 1, 2, ItemBuilder.from(Material.BLACK_STAINED_GLASS_PANE).name(Component.empty()).asGuiItem());
-                gui.setItem(rowSize + 1, 3, ItemBuilder.from(Material.BLACK_STAINED_GLASS_PANE).name(Component.empty()).asGuiItem());
-                gui.setItem(rowSize + 1, 4, ItemBuilder.from(Material.BLACK_STAINED_GLASS_PANE).name(Component.empty()).asGuiItem());
-                gui.setItem(rowSize + 1, 6, ItemBuilder.from(Material.BLACK_STAINED_GLASS_PANE).name(Component.empty()).asGuiItem());
-                gui.setItem(rowSize + 1, 7, ItemBuilder.from(Material.BLACK_STAINED_GLASS_PANE).name(Component.empty()).asGuiItem());
-                gui.setItem(rowSize + 1, 8, ItemBuilder.from(Material.BLACK_STAINED_GLASS_PANE).name(Component.empty()).asGuiItem());
-                gui.setItem(rowSize + 1, 9, ItemBuilder.from(Material.BLACK_STAINED_GLASS_PANE).name(Component.empty()).asGuiItem());
-                gui.setItem(rowSize + 1, 5, ItemBuilder.from(plugin.getFileHandler().getConfiguration().getAdditionalButtonMaterial()).name(MiniMessageUtils.transform(plugin.getFileHandler().getConfiguration().getAdditionalButtonName())).lore(MiniMessageUtils.transform(plugin.getFileHandler().getConfiguration().getAdditionButtonLore())).asGuiItem(event -> {
-                    player.performCommand(plugin.getFileHandler().getConfiguration().getAdditionButtonCommand());
-                }));
-                 */
                 plugin.getFileHandler().getConfiguration().getGuiFillers().forEach((fillerItem) -> {
                     final GuiItem item = fillerItem.asItem();
                     fillerItem.getSlots().forEach(slot -> {
@@ -73,7 +60,7 @@ public final class WaypointMenu {
 
                     GuiItem item = null;
 
-                    if (plugin.getPlayerManager().isUnlocked(player.getUniqueId(), waypoint.getName())) {
+                    if (waypoint.isDefaultWaypoint() || plugin.getPlayerManager().isUnlocked(player.getUniqueId(), waypoint.getName())) {
                         item = ItemBuilder.from(waypoint.getIcon())
                                 .name(MiniMessageUtils.transform(plugin.getFileHandler().getConfiguration().getUnlockedButtonName(waypoint.getName())))
                                 .lore(MiniMessageUtils.transform(Stream.concat(waypoint.getLore().stream(), plugin.getFileHandler().getConfiguration().getUnlockedButtonLore().stream()).collect(Collectors.toList())))
