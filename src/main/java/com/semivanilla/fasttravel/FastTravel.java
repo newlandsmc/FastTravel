@@ -1,5 +1,6 @@
 package com.semivanilla.fasttravel;
 
+import com.semivanilla.fasttravel.api.FastTravelAPI;
 import com.semivanilla.fasttravel.command.core.CommandHandler;
 import com.semivanilla.fasttravel.data.DataImpl;
 import com.semivanilla.fasttravel.data.storage.JsonStorage;
@@ -24,45 +25,10 @@ public final class FastTravel extends JavaPlugin {
     private HookManager hookManager;
     private DataImpl dataStorage;
 
-    @Override
-    public void onEnable() {
-        utilityManager = new UtilityManager(this);
-        fileHandler = new FileHandler(this);
-        waypointManager = new WaypointManager(this);
-        commandHandler = new CommandHandler(this);
-        hookManager = new HookManager(this);
-        dataStorage = new JsonStorage(this);
-        playerManager = new PlayerManager(this);
+    private static FastTravelAPI api;
 
-        if (!fileHandler.createConfigurationFiles()) {
-            getLogger().severe("The plugin is unable to create/fetch file configuration, Disabling the plugin");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        fileHandler.loadAllConfigs();
-
-        if (!dataStorage.initStorage()) {
-            getLogger().severe("The plugin is unable to establish a connection to the storage interface, Disabling the plugin");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerToggleSneakListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerMovementListener(this), this);
-
-        commandHandler.registerOthers();
-        commandHandler.registerCommands();
-
-        hookManager.initHooks();
-
-
-        //Test test = new Test(this);
-        //getCommand("test").setExecutor(test);
-
-        //getServer().getPluginManager().registerEvents(test, this);
+    public static FastTravelAPI getApi() {
+        return api;
     }
 
     public void handleReload() {
@@ -105,5 +71,48 @@ public final class FastTravel extends JavaPlugin {
 
     public PlayerManager getPlayerManager() {
         return playerManager;
+    }
+
+    @Override
+    public void onEnable() {
+        utilityManager = new UtilityManager(this);
+        fileHandler = new FileHandler(this);
+        waypointManager = new WaypointManager(this);
+        commandHandler = new CommandHandler(this);
+        hookManager = new HookManager(this);
+        dataStorage = new JsonStorage(this);
+        playerManager = new PlayerManager(this);
+
+        if (!fileHandler.createConfigurationFiles()) {
+            getLogger().severe("The plugin is unable to create/fetch file configuration, Disabling the plugin");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        fileHandler.loadAllConfigs();
+
+        if (!dataStorage.initStorage()) {
+            getLogger().severe("The plugin is unable to establish a connection to the storage interface, Disabling the plugin");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerToggleSneakListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerMovementListener(this), this);
+
+        commandHandler.registerOthers();
+        commandHandler.registerCommands();
+
+        hookManager.initHooks();
+
+
+        //Test test = new Test(this);
+        //getCommand("test").setExecutor(test);
+
+        //getServer().getPluginManager().registerEvents(test, this);
+        this.api = new PluginAPI(this);
+
     }
 }

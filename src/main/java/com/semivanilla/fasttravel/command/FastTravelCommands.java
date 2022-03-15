@@ -70,35 +70,35 @@ public class FastTravelCommands extends CommandBase {
     @Permission("fasttravel.active")
     @Completion({"#activepoints","#boolean"})
     public void onCommandSetActive(final CommandSender player, String name, Boolean status){
-        if(name == null){
-            MiniMessageUtils.sendMessage(player,CommandResponse.WAYPOINT_COMMAND_NO_NAME_PROVIDED.getResponse());
+        if (name == null) {
+            MiniMessageUtils.sendMessage(player, CommandResponse.WAYPOINT_COMMAND_NO_NAME_PROVIDED.getResponse());
             return;
         }
 
-        if(status == null){
-            MiniMessageUtils.sendMessage(player,CommandResponse.INVALID_ARGS.getResponse());
+        if (status == null) {
+            MiniMessageUtils.sendMessage(player, CommandResponse.INVALID_ARGS.getResponse());
             return;
         }
 
-        if(status == true && handler.getPlugin().getWaypointManager().isWaypointActive(name)){
-            MiniMessageUtils.sendMessage(player,CommandResponse.ALREADY_ACTIVE.getResponse());
+        if (!handler.getPlugin().getWaypointManager().contains(name)) {
+            MiniMessageUtils.sendMessage(player, CommandResponse.NO_WAYPOINT_WITH_NAME_EXISTS.getResponse());
             return;
         }
 
-        if(status == false && !handler.getPlugin().getWaypointManager().isWaypointActive(name)){
-            MiniMessageUtils.sendMessage(player,CommandResponse.ALREADY_INACTIVE.getResponse());
+        if (status == true && handler.getPlugin().getWaypointManager().isWaypointActive(name)) {
+            MiniMessageUtils.sendMessage(player, CommandResponse.ALREADY_ACTIVE.getResponse());
             return;
         }
 
-        if(!handler.getPlugin().getWaypointManager().contains(name)){
-            MiniMessageUtils.sendMessage(player,CommandResponse.NO_WAYPOINT_WITH_NAME_EXISTS.getResponse());
+        if (status == false && !handler.getPlugin().getWaypointManager().isWaypointActive(name)) {
+            MiniMessageUtils.sendMessage(player, CommandResponse.ALREADY_INACTIVE.getResponse());
             return;
         }
 
-        handler.getPlugin().getWaypointManager().setActiveFor(name,status);
-        if(status)
-            MiniMessageUtils.sendMessage(player,CommandResponse.STATUS_TOGGLE_ENABLED.getResponse());
-        else MiniMessageUtils.sendMessage(player,CommandResponse.STATUS_TOGGLED_DISABLED.getResponse());
+        handler.getPlugin().getWaypointManager().setActiveFor(name, status);
+        if (status)
+            MiniMessageUtils.sendMessage(player, CommandResponse.STATUS_TOGGLE_ENABLED.getResponse());
+        else MiniMessageUtils.sendMessage(player, CommandResponse.STATUS_TOGGLED_DISABLED.getResponse());
     }
 
     @SubCommand("reload")

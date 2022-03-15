@@ -178,5 +178,11 @@ public final class PlayerManager {
         playerDataHashMap.remove(uuid);
     }
 
+    public PlayerData getPlayerDataOf(@NotNull UUID uuid) {
+        return playerDataHashMap.get(uuid);
+    }
 
+    public boolean containsDataFor(@NotNull UUID uuid) {
+        return playerDataHashMap.containsKey(uuid);
+    }
 }
